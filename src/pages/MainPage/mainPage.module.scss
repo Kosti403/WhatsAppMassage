@@ -1,0 +1,163 @@
+.mainBlock {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 500px;
+
+  .textBlock {
+    max-width: 720px;
+    margin-left: 150px;
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .textH {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin-bottom: 30px;
+    }
+
+    .quote {
+      font-style: italic;
+      color: #666;
+      margin-top: 20px;
+      padding-left: 20px;
+      border-left: 4px solid #ddd;
+      width: 600px;
+    }
+
+    .quoteSpan {
+      font-size: 16px;
+      color: gray;
+      padding-left: 39px;
+    }
+  }
+
+  .mainImg {
+    margin-top: 30px;
+
+    img {
+      border-radius: 30px;
+
+      width: 75%;
+      max-width: 500px;
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .mainBlock {
+    .textBlock {
+      max-width: 570px;
+      margin-left: 0;
+      h1 {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+      }
+
+      .textH {
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+
+      .quote {
+        width: 80%;
+      }
+    }
+
+    .mainImg {
+      display: flex;
+      justify-content: center;
+      margin-top: 0;
+    }
+  }
+}
+@media screen and (max-width: 780px) {
+  .mainBlock {
+    flex-direction: column;
+    margin-top: 40px;
+    .textBlock {
+      max-width: 100%;
+      margin-left: 20px;
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+      }
+
+      .textH {
+        font-size: 0.9rem;
+        line-height: 1.3;
+        margin: 0;
+      }
+
+      .quote {
+        font-size: 0.8rem;
+        padding-left: 15px;
+        border-left: 3px solid #ddd;
+      }
+
+      .quoteSpan {
+        padding-left: 20px;
+      }
+    }
+
+    .mainImg {
+      margin-top: 20px;
+      width: 100%;
+      align-items: center;
+
+      img {
+        width: 85%;
+        max-width: 400px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 460px) {
+  .mainBlock {
+    flex-direction: column;
+    height: auto;
+
+    .textBlock {
+      max-width: 100%;
+      margin: 0 20px;
+      h1 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+
+      .textH {
+        font-size: 0.85rem;
+        line-height: 1.3;
+      }
+
+      .quote {
+        font-size: 0.75rem;
+        padding-left: 10px;
+        border-left-width: 2px;
+        margin: 10px 0;
+      }
+
+      .quoteSpan {
+        font-size: 12px;
+      }
+    }
+
+    .mainImg {
+      margin-top: 10px;
+      width: 180px;
+      justify-content: center;
+
+      img {
+        width: 100%;
+        max-width: 350px;
+      }
+    }
+  }
+}

@@ -1,0 +1,98 @@
+.container {
+  margin: 50px;
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    border-radius: 30px;
+    width: 80%;
+    height: 500px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1000;
+
+    .loginSection,
+    .signupSection {
+      display: flex;
+      width: 50%;
+      .registrationButton {
+        display: flex;
+        gap: 15px;
+      }
+    }
+
+    .modalClose {
+      position: absolute;
+      z-index: 1000;
+      left: 93%;
+      top: 5%;
+
+      border-radius: 25%;
+      background: linear-gradient(
+        to right,
+        rgb(0, 120, 194) 15%,
+        rgb(0, 71, 255) 50%,
+        rgb(132, 83, 210) 90%
+      );
+      color: #ffffff;
+      border: none;
+
+      &:hover {
+        background: linear-gradient(
+          to right,
+          rgb(0, 120, 194) 15%,
+          rgb(0, 71, 255) 50%,
+          rgb(132, 83, 210) 90%
+        );
+      }
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  .container {
+    .content {
+      width: 80%;
+
+      .loginSection,
+      .signupSection {
+        width: 100%;
+      }
+    }
+  }
+}
+@media (max-width: 1100px) {
+  .container {
+    .content {
+      .loginSection,
+      .signupSection {
+        width: 100%;
+      }
+    }
+  }
+}
+@media (max-width: 800px) {
+  .container {
+    .content {
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+
+      .loginSection,
+      .signupSection {
+        width: 100%;
+        order: 2;
+      }
+    }
+  }
+}
+
+@media (max-width: 420px) {
+  .container {
+    .content {
+      padding: 10px;
+    }
+  }
+}
