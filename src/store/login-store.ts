@@ -37,7 +37,7 @@ class LoginStore {
       storedData.login === login &&
       storedData.password === password
     ) {
-      navigate("/personAddPage");
+      navigate("/personPage");
     } else {
       this.inpDataErr.loginErr = "User not found";
     }

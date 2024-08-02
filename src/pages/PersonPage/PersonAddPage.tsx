@@ -1,10 +1,12 @@
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import s from "./personAddPage.module.scss";
 import { PersonAnimated } from "../../components/AnimatedBox/PersonAnimated";
 import { Button } from "../../shared/ui/Button/Button";
 import { EmployeeList } from "./tablePersone/employeeList";
-import { AddPersonModal } from "./tablePersone/addPersonModal";
+import { AnimatePresence } from "framer-motion";
+import AddPersonModal from "./tablePersone/addPersonModal";
+import { userStore } from "../../store/userStore";
 
 interface Employee {
   id: string;
@@ -14,7 +16,10 @@ interface Employee {
   schedule: string;
 }
 
-const sendMessage = async (phoneNumber: string, message: string) => {
+const sendMessage = async (
+  phoneNumber: string,
+  message: string
+): Promise<void> => {
   try {
     const response = await fetch("http://localhost:3000/send-message", {
       method: "POST",
@@ -44,12 +49,21 @@ const sendMessage = async (phoneNumber: string, message: string) => {
 
 const PersonAddPage = observer(() => {
   const [employees, setEmployees] = useState<Employee[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const handleAddEmployee = (employee: Employee) => {
-    setEmployees((prevEmployees) => [...prevEmployees, employee]);
+  useEffect(() => {
+    setEmployees(userStore.getUserEmployees());
+  }, []);
+
+  const handleAddEmployee = (employee: Employee): void => {
+    const updatedEmployees = [...employees, employee];
+    setEmployees(updatedEmployees);
+    userStore.saveUserEmployees(updatedEmployees);
     setIsModalOpen(false);
-    sendMessage(employee.phoneNumber, `Welcome to the team, ${employee.fullName}!`);
+    sendMessage(
+      employee.phoneNumber,
+      `Welcome to the team, ${employee.fullName}!`
+    );
   };
 
   return (
@@ -69,12 +83,14 @@ const PersonAddPage = observer(() => {
           <EmployeeList employees={employees} />
         </div>
       </div>
-      {isModalOpen && (
-        <AddPersonModal
-          onClose={() => setIsModalOpen(false)}
-          onAddEmployee={handleAddEmployee}
-        />
-      )}
+      <AnimatePresence>
+        {isModalOpen && (
+          <AddPersonModal
+            onClose={() => setIsModalOpen(false)}
+            onAddEmployee={handleAddEmployee}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 });

@@ -1,6 +1,5 @@
 import React from "react";
 import { Select } from "antd";
-import s from "./LanguageSelect.module.scss";
 
 import KZ from "../../../../assets/icons/kk.svg";
 import RU from "../../../../assets/icons/ru.svg";
@@ -20,6 +19,23 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({
       defaultValue={defaultValue}
       style={{ width: 85 }}
       onChange={handleChange}
+      suffixIcon={
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7 10l5 5 5-5"
+            stroke="#000"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      }
       options={[
         {
           label: <span>Language</span>,
@@ -27,8 +43,9 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({
           options: [
             {
               label: (
-                <span className={s.labelImg}>
-                  <img src={KZ} alt="KZ"></img>KZ
+                <span>
+                  <img src={KZ} alt="KZ" />
+                  KZ
                 </span>
               ),
               value: "KZ",
@@ -36,7 +53,8 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({
             {
               label: (
                 <span>
-                  <img src={RU} alt="RU"></img>RU
+                  <img src={RU} alt="RU" />
+                  RU
                 </span>
               ),
               value: "RU",
@@ -44,7 +62,8 @@ const LanguageSelect: React.FC<LanguageSelectProps> = ({
             {
               label: (
                 <span>
-                  <img src={EN} alt="EN"></img>EN
+                  <img src={EN} alt="EN" />
+                  EN
                 </span>
               ),
               value: "EN",

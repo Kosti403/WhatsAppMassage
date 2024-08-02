@@ -29,7 +29,11 @@ class SignupStore {
       [`${key}Err`]: "",
     };
   };
-
+  
+  clearData = () => {
+    this.inpData = { phone: "", login: "", password: "" , confirmpassword: ""};
+    this.inpDataErr = { phoneErr: "", loginErr: "", passwordErr: "",confirmpasswordErr: "" };
+  };
   clickHandler = (navigate: (path: string) => void) => {
     if (this.validateData()) {
       const { phone, login, password } = this.inpData;

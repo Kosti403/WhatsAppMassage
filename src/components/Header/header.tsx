@@ -1,8 +1,7 @@
 import { observer } from "mobx-react-lite";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../../shared/ui/Button/Button";
 import s from "./header.module.scss";
-import { useNavigate } from "react-router-dom";
 import LanguageSelect from "./components/LanguageSelect/LanguageSelect";
 
 const handleChange = (value: string) => {
@@ -11,16 +10,20 @@ const handleChange = (value: string) => {
 
 export const Header = observer(() => {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const hasAccessToken = !!localStorage.getItem("accessToken"); // Assuming accessToken is stored in localStorage
+  const hasAccessToken = !!localStorage.getItem("accessToken");
 
   const handleGoToSignUp = () => {
     navigate("/Login");
   };
 
-  const handleGoToPerson = () => {
-    navigate("/person");
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/");
   };
+
+  const isOnPersonAddPage = location.pathname === "/personPage";
 
   return (
     <div className={s.header}>
@@ -36,15 +39,16 @@ export const Header = observer(() => {
               <LanguageSelect defaultValue="KZ" handleChange={handleChange} />
             </div>
             <div className={s.registration}>
-              {hasAccessToken && (
-                <Button className={s.button} onClick={handleGoToPerson}>
-                  Profile
+              {isOnPersonAddPage ? (
+                <Button className={s.button} onClick={handleLogout}>
+                  Выйти с Аккаунта
                 </Button>
-              )}
-              {!hasAccessToken && (
-                <Button className={s.button} onClick={handleGoToSignUp}>
-                  Sign Up / Log In
-                </Button>
+              ) : (
+                !hasAccessToken && (
+                  <Button className={s.button} onClick={handleGoToSignUp}>
+                    Вход / Регистрация
+                  </Button>
+                )
               )}
             </div>
           </div>

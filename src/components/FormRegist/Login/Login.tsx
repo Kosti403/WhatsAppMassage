@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { autorun } from "mobx";
 import { registStore } from "../../../store/regist-store";
 
+
 export const Login = observer(() => {
   const { inpData, inpDataErr, updateInpData, clickHandler, clearData } = loginStore;
   const navigate = useNavigate();
@@ -33,34 +34,35 @@ export const Login = observer(() => {
   return (
     <div className={s.loginContent}>
       <div className={s.registrationButton}>
-        <span>Create new Account</span>
+        <span>Регистрация</span>
         <Button onClick={handleGoToSignUp} className={s.button}>
           &rarr;
         </Button>
       </div>
 
       <div className={s.loginTitle}>
-        <h1>Sign in to Website</h1>
+        <h1>Войдите на веб-сайт</h1>
       </div>
       <div className={s.loginInput}>
         <input
           type="text"
           onChange={(e) => updateInpData("phone", e.target.value)}
-          placeholder="Phone number"
+          placeholder="Номер телефона"
           value={inpData.phone}
           maxLength={20}
+          
         />
         <input
           type="text"
           onChange={(e) => updateInpData("login", e.target.value)}
-          placeholder="Username"
+          placeholder="Логин / Имя"
           value={inpData.login}
         />
         {inpDataErr.loginErr && <span className={s.err}>{inpDataErr.loginErr}</span>}
         <input
           type="password"
           onChange={(e) => updateInpData("password", e.target.value)}
-          placeholder="Password"
+          placeholder="Пароль"
           value={inpData.password}
         />
         {inpDataErr.passwordErr && <span className={s.err}>{inpDataErr.passwordErr}</span>}

@@ -1,4 +1,9 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { motion } from "framer-motion";
+ import PhoneInput, { isValidPhoneNumber, Value } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import styles from "./addPersone.module.scss";
+import { Button } from "../../../shared/ui/Button/Button";
 
 interface AddPersonModalProps {
   onClose: () => void;
@@ -13,53 +18,84 @@ interface Employee {
   schedule: string;
 }
 
-export const AddPersonModal = ({ onClose, onAddEmployee }: AddPersonModalProps) => {
+const AddPersonModal = ({ onClose, onAddEmployee }: AddPersonModalProps) => {
   const [fullName, setFullName] = useState('');
-  const [phoneNumber, setPhone] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState<Value>();
   const [email, setEmail] = useState('');
   const [schedule, setSchedule] = useState('');
+  const [phoneError, setPhoneError] = useState('');
 
   const handleSubmit = () => {
-    const newEmployee: Employee = {
-      id: Math.random().toString(36).substr(2, 9),
-      fullName,
-      phoneNumber,
-      email,
-      schedule,
-    };
+    if (phoneNumber && !phoneError) {
+      const newEmployee: Employee = {
+        id: Math.random().toString(36).substr(2, 9),
+        fullName,
+        phoneNumber,
+        email,
+        schedule,
+      };
 
-    onAddEmployee(newEmployee);
+      onAddEmployee(newEmployee);
+      onClose();
+    } else {
+      setPhoneError('Введите корректный номер телефона');
+    }
+  };
+
+  const handlePhoneChange = (value: Value) => {
+    setPhoneNumber(value);
+    setPhoneError(value && isValidPhoneNumber(value) ? '' : 'Введите корректный номер телефона');
   };
 
   return (
-    <div>
-      <h2>Add New Employee</h2>
-      <input
-        type="text"
-        placeholder="Full Name"
-        value={fullName}
-        onChange={(e) => setFullName(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Phone"
-        value={phoneNumber}
-        onChange={(e) => setPhone(e.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Schedule"
-        value={schedule}
-        onChange={(e) => setSchedule(e.target.value)}
-      />
-      <button onClick={handleSubmit}>Add Employee</button>
-      <button onClick={onClose}>Close</button>
+    <div className={styles.modalBackdrop}>
+      <motion.div
+        className={styles.modalContent}
+        onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.8 }}
+      >
+        <div className={styles.modalHeader}>
+          <h2>Добавить нового сотрудника</h2>
+          <Button onClick={onClose}>✖</Button>
+        </div>
+        <div className={styles.modalBody}>
+          <input
+            type="text"
+            placeholder="ФИО"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+          <PhoneInput
+            placeholder="Номер телефона(WhatsApp)"
+            value={phoneNumber}
+            onChange={handlePhoneChange}
+            defaultCountry="KZ"
+            international
+            withCountryCallingCode
+          />
+          {phoneError && <p className={styles.error}>{phoneError}</p>}
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Распорядок работы"
+            value={schedule}
+            onChange={(e) => setSchedule(e.target.value)}
+          />
+        </div>
+        <div className={styles.modalFooter}>
+          <Button onClick={handleSubmit}>Добавить сотрудника</Button>
+          <Button onClick={onClose}>Закрыть</Button>
+        </div>
+      </motion.div>
     </div>
   );
 };
+
+export default AddPersonModal;

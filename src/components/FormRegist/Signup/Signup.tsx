@@ -3,22 +3,22 @@ import { Button } from "../../../shared/ui/Button/Button";
 import { signUpStore } from "../../../store/signup-store";
 import s from "./Signup.module.scss";
 import { useNavigate } from "react-router-dom";
-// import { useEffect } from "react";
-// import { autorun } from "mobx";
-// import { registStore } from "../../../store/regist-store";
+import { useEffect } from "react";
+import { autorun } from "mobx";
+import { registStore } from "../../../store/regist-store";
 
 export const Signup = observer(() => {
-  const { inpData, inpDataErr, updateInpData, clickHandler } = signUpStore;
+  const { inpData, inpDataErr, updateInpData, clickHandler, clearData } = signUpStore;
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const reactionCleanup = autorun(() => {
-  //     if (!registStore.isVisible) {
-  //       clearData();
-  //     }
-  //   });
-  //   return () => reactionCleanup();
-  // }, [clearData]);
+  useEffect(() => {
+    const reactionCleanup = autorun(() => {
+      if (!registStore.isVisible) {
+        clearData();
+      }
+    });
+    return () => reactionCleanup();
+  }, [clearData]);
   const handleClick = () => {
     if (signUpStore.validateData()) {
       clickHandler(navigate);
@@ -32,43 +32,49 @@ export const Signup = observer(() => {
   return (
     <div className={s.signupContent}>
       <div className={s.registrationButton}>
-        <span>Back</span>
+        <span>Вход</span>
         <Button onClick={handleGoToLogin} className={s.button}>
           &larr;
         </Button>
       </div>
       <div className={s.signupTitle}>
-        <h1>Create Account</h1>
+        <h1>Создайте новый аккаунт</h1>
       </div>
       <div className={s.signupInput}>
         <input
           type="text"
           onChange={(e) => updateInpData("phone", e.target.value)}
-          placeholder="Phone number"
+          placeholder="Номер телефона"
           value={inpData.phone}
           maxLength={20}
         />
         <input
           type="text"
           onChange={(e) => updateInpData("login", e.target.value)}
-          placeholder="Username"
+          placeholder="Логин / Имя"
           value={inpData.login}
         />
-        {inpDataErr.loginErr && <span className={s.err}>{inpDataErr.loginErr}</span>}
+        {inpDataErr.loginErr && (
+          <span className={s.err}>{inpDataErr.loginErr}</span>
+        )}
         <input
           type="password"
           onChange={(e) => updateInpData("password", e.target.value)}
-          placeholder="Password"
+          placeholder="Пароль"
           value={inpData.password}
         />
-        {inpDataErr.passwordErr && <span className={s.err}>{inpDataErr.passwordErr}</span>}
+        {inpDataErr.passwordErr && (
+          <span className={s.err}>{inpDataErr.passwordErr}</span>
+        )}
         <input
           type="password"
           onChange={(e) => updateInpData("confirmpassword", e.target.value)}
-          placeholder="Confirm Password"
+          placeholder="Повторите пароль"
           value={inpData.confirmpassword}
         />
-        {inpDataErr.confirmpasswordErr && <span className={s.err}>{inpDataErr.confirmpasswordErr}</span>}
+        {inpDataErr.confirmpasswordErr && (
+          <span className={s.err}>{inpDataErr.confirmpasswordErr}</span>
+        )}
         <Button onClick={handleClick}>Sign Up</Button>
       </div>
     </div>
