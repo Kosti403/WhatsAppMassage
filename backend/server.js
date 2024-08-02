@@ -13,9 +13,11 @@ const client = twilio(
   process.env.TWILIO_AUTH_TOKEN
 );
 
-app.use(cors({
-  origin: 'http://localhost:5173', 
-}));
+app.use(
+  cors({
+    origin: "https://lively-mooncake-e3e9c7.netlify.app/",
+  })
+);
 
 app.use(express.json());
 
@@ -29,9 +31,11 @@ const sendMessage = async (phoneNumber, message) => {
 
     return { success: true, sid: response.sid };
   } catch (error) {
-
     if (error.code === 21614) {
-      return { success: false, error: "Number is not registered with WhatsApp." };
+      return {
+        success: false,
+        error: "Number is not registered with WhatsApp.",
+      };
     }
     return { success: false, error: error.message };
   }
